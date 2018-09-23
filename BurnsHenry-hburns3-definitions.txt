@@ -1,0 +1,6 @@
+make - complies a makefile which can compile your prexisting files with only a single command, allowing complation optimization.
+grep - searches the file provided as an argument for the pattern given. 
+touch - allows you to change the timestamps provided on files. EX: change the date the file was created.
+more - lets you shuffle through text one screenfull at a time as opposed to one line at a time.
+find - searches directories for a specified file.
+ 
