@@ -1,0 +1,4 @@
+static vars:
+	10000: the heap was not present in GDB's info proc mappings command. i used call malloc_stats() to find the size of the heap was 401408 bytes
+	100: 0x7ffffffde000     0x7ffffffff000    0x21000
+	10: 0x7ffffffde000     0x7ffffffff000    0x21000
