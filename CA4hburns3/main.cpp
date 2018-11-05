@@ -6,12 +6,20 @@
 #include <algorithm>
 
 
+LLC<PlayingCard>* deck = new LLC<PlayingCard>();
+        
 std::vector<Player*> getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data );
 int main(int argc, char** argv){
     if(argc < 3){
             std::cout << "Please enter a valid number of arguments." << std::endl;
             return 1;
     }
+    for(int i = 2; i < 15; i++){ 
+                deck->insert(PlayingCard(i,HEARTS)); 
+                deck->insert(PlayingCard(i, DIAMONDS));
+                deck->insert(PlayingCard(i, SPADES)); 
+                deck->insert(PlayingCard(i, CLUBS)); 
+        }
     totalData* data = new totalData();
     std::vector<Player*>* players = new std::vector<Player*>();
     auto list = *players;
@@ -44,6 +52,7 @@ int main(int argc, char** argv){
     }
     auto winnerVector = getWinners(*players, writer, *data);
     auto winner = winnerVector[0]; 
+    std::cout << data->total_battles << " The greatest number of battles in a single tournament was " << data->best_battles << std::endl;
     std::cout << "Winner: " << winner->name << ". Average number of battles in the tournament: " << (data->total_battles/(size-1)) << " The greatest number of battles in a single tournament was " << data->best_battles << std::endl;
     for(auto i = players->begin(); i != players->end(); ++i){
         delete &(*i);
@@ -65,6 +74,8 @@ int main(int argc, char** argv){
         if(contestants.size() == 1)
             return contestants;
         Game* game = new Game();
+        deck->shuffle();
+        game->community = *deck;
         std::cout << "===" << std::endl;
         std::cout << "===" << std::endl;
         std::cout << "===" << std::endl;
@@ -74,12 +85,6 @@ int main(int argc, char** argv){
             out << "===" << std::endl;
             Player* winner = game->play(contestants[i], contestants[i+1], &out, data);
             winner->cards.clear();
-            Player* loser;
-            for(int j = 0; j < 2; j++){
-                if(contestants[j] != winner)
-                    loser = contestants[j];
-            }
-            out << *winner << " DEFEATED " << loser->name <<  " in " << winner->battles_won << " Battles and " << winner->wars <<  " Wars" << std::endl;
             out << "===" << std::endl;
             nextTier->push_back(winner);
         }

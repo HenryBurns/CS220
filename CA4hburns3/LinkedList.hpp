@@ -191,7 +191,7 @@ class LLC{
 	template <class T>
 	void LLC<T>::shuffle(){
 		//generate a random seed
-		//srand(time(0));
+		srand(time(0));
 		//create a random number of times to switch elements
 		int n = (rand()%40),rand1, rand2;
 		//get the length of the list
