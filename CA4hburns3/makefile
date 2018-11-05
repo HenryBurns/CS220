@@ -1,5 +1,5 @@
 CC = g++
-CC_FLAGS = -Wall -pedantic -g -Wextra
+CC_FLAGS = -std=c++14 -Wall -pedantic -g -Wextra
  
 # File names
 EXEC = war.exe

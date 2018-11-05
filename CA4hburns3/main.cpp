@@ -37,9 +37,6 @@ int main(int argc, char** argv){
             players->push_back(temp);
         }
     }
-    for(auto i = players->begin(); i != players->end(); ++i){
-        std::cout << *(*i) << std::endl;
-    }
     {
         unsigned int iter = 1;
         size = players->size();
@@ -52,9 +49,9 @@ int main(int argc, char** argv){
     }
     auto winnerVector = getWinners(*players, writer, *data);
     auto winner = (*winnerVector)[0]; 
-    std::cout << data->total_battles << " The greatest number of battles in a single tournament was " << data->best_battles << std::endl;
     std::cout << "Winner: " << winner->name << ". Average number of battles in the tournament: " << (data->total_battles/(size-1)) << " The greatest number of battles in a single tournament was " << data->best_battles << std::endl;
-    delete &winner;
+    auto toBeDeleted = *winnerVector;
+    delete (toBeDeleted[0]);
     delete winnerVector;
     //delete players;
     //std::cout << *game << std::endl;
@@ -66,14 +63,9 @@ int main(int argc, char** argv){
     std::vector<Player*> *getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data){
         Game* game = new Game();
         game->community = *deck;
-        std::cout << "===" << std::endl;
-        std::cout << "===" << std::endl;
-        std::cout << "===" << std::endl;
-        std::cout << "===" << std::endl;
         std::vector<Player*> *nextTier = new std::vector<Player*>();
         for(unsigned int i = 0; i < contestants.size()-1; i+=2){
             deck->shuffle();
-            //std::cout << *deck << std::endl;
             out << "===" << std::endl;
             Player* winner = game->play(contestants[i], contestants[i+1], &out, data);
             if(winner == contestants[i])
@@ -81,7 +73,6 @@ int main(int argc, char** argv){
             else
                 delete contestants[i];
             winner->cards.clear();
-            out << "===" << std::endl;
             nextTier->push_back(winner);
         }
         for(auto i = contestants.begin(); i != contestants.end(); ++i){

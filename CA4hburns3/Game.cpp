@@ -37,6 +37,7 @@ void Game::setUp(){
             *file << player1->name << " VS. " << player2->name << std::endl;
             setCommunity();
             readyPlayers( player1, player2);
+            community.clear();
             int cntr = 0;
             Player* winner;
             int p1_battles = player1->hands_played;
@@ -52,14 +53,12 @@ void Game::setUp(){
             }
             winner = (player1->cards.len() > player2->cards.len())? player1 : player2;
             if(winner == player1){
-                std::cout << (player1->hands_played - p1_battles) << std::endl;
                 data.total_battles += (player1->hands_played - p1_battles);
                 if(data.best_battles < (player1->hands_played - p1_battles))
                     data.best_battles = (player1->hands_played - p1_battles);
             *file << *player1 << " DEFEATED " << *player2 <<  " in " << winner->battles_won << " Battles and " << winner->wars <<  " Wars" << std::endl;
             }
             else{
-                std::cout << (player2->hands_played - p2_battles) << std::endl;
                 data.total_battles += (player2->hands_played - p2_battles);
                 if(data.best_battles < (player2->hands_played - p2_battles))
                     data.best_battles = (player2->hands_played - p2_battles);
@@ -118,14 +117,16 @@ void Game::setUp(){
                                 temp = player1->cards.getElement();
                                 community.addNode(temp);
                             }
-                            card1 = temp->data;
+                            if(temp != NULL)
+                                card1 = temp->data;
                     } else {
                         more_cards++;
                         for(int i = 0; i < 4 ; i++){
                                 temp = player1->cards.getElement();
                                 community.addNode(temp);
                             }
-                            card1 = temp->data;
+                            if(temp != NULL)
+                                card1 = temp->data;
                     }
                     if(player2->cards.len() < 4){
                             for(int i = 0; i < player2->cards.len() ; i++){

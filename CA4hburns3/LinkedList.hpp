@@ -147,18 +147,22 @@ class LLC{
 	template <class T>
 	bool LLC<T>::insert(const T &value){
 		NODE<T>* temp = new NODE<T>;
-                if(first == nullptr)
-                        first = temp;
+		temp -> data = value;	
+                length++;
 		if(last == nullptr){
 			first = temp;
 			last = temp;
+                        return true;
 		}
+                if(first == nullptr){
+                        first = temp;
+                        return true;
+                }
 		else{
 			last -> next = temp;
 			last = last->next;
+                        return true;
 		}
-		temp -> data = value;	
-                length++;
 		return true;
 	}
 //works
@@ -192,12 +196,10 @@ class LLC{
 //TODO
 	template <class T>
 	void LLC<T>::shuffle(){
-                std::cout << "Shuffling" << std::endl;
 		//generate a random seed
 		//create a random number of times to switch elements
 		int n = (rand()%100),rand1, rand2;
                 n += 20;
-                std::cout << "Rand: " <<n << std::endl;
 		//get the length of the list
 		int length = len();
 		//declare temporary pointers
@@ -354,7 +356,7 @@ class LLC{
                 if(first != nullptr){
 		    NODE<T>* temp = first;
 		    int cntr = 1;
-		    while(temp != last){
+		    while(temp != last && temp != nullptr){
 			temp = temp -> next;
 			cntr++;
     		    }
