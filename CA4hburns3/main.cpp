@@ -8,7 +8,7 @@
 
 LLC<PlayingCard>* deck = new LLC<PlayingCard>();
         
-std::vector<Player*> getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data );
+std::vector<Player*> *getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data );
 int main(int argc, char** argv){
     if(argc < 3){
             std::cout << "Please enter a valid number of arguments." << std::endl;
@@ -51,30 +51,20 @@ int main(int argc, char** argv){
         }
     }
     auto winnerVector = getWinners(*players, writer, *data);
-    auto winner = winnerVector[0]; 
+    auto winner = (*winnerVector)[0]; 
     std::cout << data->total_battles << " The greatest number of battles in a single tournament was " << data->best_battles << std::endl;
     std::cout << "Winner: " << winner->name << ". Average number of battles in the tournament: " << (data->total_battles/(size-1)) << " The greatest number of battles in a single tournament was " << data->best_battles << std::endl;
-    for(auto i = players->begin(); i != players->end(); ++i){
-        delete &(*i);
-    }
-    delete &winnerVector;
+    delete &winner;
+    delete winnerVector;
     //delete players;
     //std::cout << *game << std::endl;
-/*
-    winner.wins++;
-    std::cout << "Winner: " << winner << std::endl;
-    std::cout << "Player 1: " << *player1 << std::endl;
-    std::cout << "Player 2: " << *player2 << std::endl;
-    delete game;
-*/
+    delete deck;
+    delete data;
     return 0;
 }
 
-    std::vector<Player*> getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data){
-        if(contestants.size() == 1)
-            return contestants;
+    std::vector<Player*> *getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data){
         Game* game = new Game();
-        deck->shuffle();
         game->community = *deck;
         std::cout << "===" << std::endl;
         std::cout << "===" << std::endl;
@@ -82,8 +72,14 @@ int main(int argc, char** argv){
         std::cout << "===" << std::endl;
         std::vector<Player*> *nextTier = new std::vector<Player*>();
         for(unsigned int i = 0; i < contestants.size()-1; i+=2){
+            deck->shuffle();
+            //std::cout << *deck << std::endl;
             out << "===" << std::endl;
             Player* winner = game->play(contestants[i], contestants[i+1], &out, data);
+            if(winner == contestants[i])
+                delete contestants[i+1];
+            else
+                delete contestants[i];
             winner->cards.clear();
             out << "===" << std::endl;
             nextTier->push_back(winner);
@@ -93,8 +89,10 @@ int main(int argc, char** argv){
                 int j;
                 //delete &(*i);
         }
-        //delete &contestants;
+        delete &contestants;
         delete game;
+        if(nextTier->size() == 1)
+            return nextTier;
         return getWinners(*nextTier, out, data);
         
     }

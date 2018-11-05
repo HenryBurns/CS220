@@ -19,6 +19,7 @@ NODE<T>::NODE(){}
 template <class T>
 class LLC{
 	private:
+        int rand_num;
 	NODE<T>* first;
 	NODE<T>* last;
 	public:
@@ -51,6 +52,7 @@ class LLC{
 	LLC<T>::LLC(){
 		first = nullptr;
 		last = nullptr;
+                srand(time(0));
 	}
 //work
 	template <class T>
@@ -190,10 +192,12 @@ class LLC{
 //TODO
 	template <class T>
 	void LLC<T>::shuffle(){
+                std::cout << "Shuffling" << std::endl;
 		//generate a random seed
-		srand(time(0));
 		//create a random number of times to switch elements
-		int n = (rand()%40),rand1, rand2;
+		int n = (rand()%100),rand1, rand2;
+                n += 20;
+                std::cout << "Rand: " <<n << std::endl;
 		//get the length of the list
 		int length = len();
 		//declare temporary pointers
