@@ -161,6 +161,7 @@ class LLC{
 		else{
 			last -> next = temp;
 			last = last->next;
+                        last ->next = NULL;
                         return true;
 		}
 		return true;

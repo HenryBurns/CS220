@@ -51,7 +51,9 @@ void Game::setUp(){
                             break;
                     }
             }
+            community.clear();
             winner = (player1->cards.len() > player2->cards.len())? player1 : player2;
+            winner->wins++;
             if(winner == player1){
                 data.total_battles += (player1->hands_played - p1_battles);
                 if(data.best_battles < (player1->hands_played - p1_battles))
@@ -80,16 +82,21 @@ void Game::setUp(){
                     player1->battles_won++;
                     player1->cards.addNode(community.getElement());
                     player1->cards.addNode(community.getElement());
+                    community.clear();
+                    return;
                     }
             else if (card1 < card2){
                     *out << player2->name << " " << card2 << " DEFEATED " << player1->name << " " << card1;
                     player2->battles_won++;
                     player2->cards.addNode(community.getElement());
                     player2->cards.addNode(community.getElement());  
+                    community.clear();
+                    return;
             }
             else {
                     *out << player2->name << " " << card2 << " TIED " << player1->name << " " << card1;
                     war(player1, player2, out); 
+                    return;
             }
     }
 
@@ -112,68 +119,68 @@ void Game::setUp(){
                         player1->cards.addNode(community.getElement());
                     }
             }
-                    if(player1->cards.len() < 4){
-                            for(int i = 0; i < player1->cards.len() ; i++){
-                                temp = player1->cards.getElement();
-                                community.addNode(temp);
-                            }
-                            if(temp != NULL )
-                                card1 = temp->data;
-                    } else {
-                        more_cards++;
-                        for(int i = 0; i < 4 ; i++){
-                                temp = player1->cards.getElement();
-                                community.addNode(temp);
-                            }
-                            if(temp != NULL )
-                                card1 = temp->data;
+            if(player1->cards.len() < 4){
+                    for(int i = 0; i < player1->cards.len() ; i++){
+                        temp = player1->cards.getElement();
+                        community.addNode(temp);
                     }
-                    if(player2->cards.len() < 4){
-                            for(int i = 0; i < player2->cards.len() ; i++){
-                                temp = player2->cards.getElement();
-                                community.addNode(temp);
-                            }
-                            if(temp != NULL )
-                                card2 = temp->data;
-                    } else {
-                        more_cards++;
-                        for(int i = 0; i < 4 ; i++){
-                                temp = player2->cards.getElement();
-                                community.addNode(temp);
-                            }
-                            if(temp != NULL )
-                                card2 = temp->data;
+                    if(temp != NULL )
+                        card1 = temp->data;
+            } else {
+                more_cards++;
+                for(int i = 0; i < 4 ; i++){
+                        temp = player1->cards.getElement();
+                        community.addNode(temp);
                     }
-                    if(card1 > card2){
-                        player1->battles_won++;
+                    if(temp != NULL )
+                        card1 = temp->data;
+            }
+            if(player2->cards.len() < 4){
+                for(int i = 0; i < player2->cards.len() ; i++){
+                    temp = player2->cards.getElement();
+                    community.addNode(temp);
+                }
+                if(temp != NULL )
+                    card2 = temp->data;
+            } else {
+                more_cards++;
+                for(int i = 0; i < 4 ; i++){
+                    temp = player2->cards.getElement();
+                        community.addNode(temp);
+                }
+                if(temp != NULL )
+                    card2 = temp->data;
+            }
+                if(card1 > card2){
+                    player1->battles_won++;
+                    for(int i = 0; i< community.len();){
+                        player1->cards.addNode(community.getElement());
+                    }
+                    return;
+                }
+                else if (card2 > card1){
+                    player2->battles_won++;
+                    for(int i = 0; i< community.len();){
+                        player2->cards.addNode(community.getElement());
+                    }
+                    return;
+                }
+                else{
+                    if(more_cards == 2){
+                        war(player1, player2, out);
+                        return;
+                    } else if (more_cards == 1){
+                        Player* temp = (player1->cards.len() > player2->cards.len())? player1 : player2;
+                        temp->wins++;
                         for(int i = 0; i< community.len();){
-                            player1->cards.addNode(community.getElement());
+                            temp->cards.addNode(community.getElement());
                         }
-                            return;
-                    }
-                    else if (card2 > card1){
-                        player2->battles_won++;
-                        for(int i = 0; i< community.len();){
-                            player2->cards.addNode(community.getElement());
-                        }
-                            return;
                     }
                     else{
-                        if(more_cards == 2){
-                            war(player1, player2, out);
-                            return;
-                        } else if (more_cards == 1){
-                            Player* temp = (player1->cards.len() > player2->cards.len())? player1 : player2;
-                            temp->wins++;
-                            for(int i = 0; i< community.len();){
-                                temp->cards.addNode(community.getElement());
-                            }
-                        }
-                        else{
                         player1->battles_won++;
                         for(int i = 0; i< community.len();){
                             player1->cards.addNode(community.getElement());
-                            }
                         }
                     }
-            }
+                }
+        }

@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-LLC<PlayingCard>* deck = new LLC<PlayingCard>();
+Game* game = new Game();
         
 std::vector<Player*> *getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data );
 int main(int argc, char** argv){
@@ -14,12 +14,6 @@ int main(int argc, char** argv){
             std::cout << "Please enter a valid number of arguments." << std::endl;
             return 1;
     }
-    for(int i = 2; i < 15; i++){ 
-                deck->insert(PlayingCard(i,HEARTS)); 
-                deck->insert(PlayingCard(i, DIAMONDS));
-                deck->insert(PlayingCard(i, SPADES)); 
-                deck->insert(PlayingCard(i, CLUBS)); 
-        }
     totalData* data = new totalData();
     std::vector<Player*>* players = new std::vector<Player*>();
     auto list = *players;
@@ -55,17 +49,14 @@ int main(int argc, char** argv){
     delete winnerVector;
     //delete players;
     //std::cout << *game << std::endl;
-    delete deck;
+    delete game;
     delete data;
     return 0;
 }
 
     std::vector<Player*> *getWinners(std::vector<Player*> &contestants, std::ofstream &out, totalData &data){
-        Game* game = new Game();
-        game->community = *deck;
         std::vector<Player*> *nextTier = new std::vector<Player*>();
         for(unsigned int i = 0; i < contestants.size()-1; i+=2){
-            deck->shuffle();
             out << "===" << std::endl;
             Player* winner = game->play(contestants[i], contestants[i+1], &out, data);
             if(winner == contestants[i])
@@ -81,7 +72,6 @@ int main(int argc, char** argv){
                 //delete &(*i);
         }
         delete &contestants;
-        delete game;
         if(nextTier->size() == 1)
             return nextTier;
         return getWinners(*nextTier, out, data);
