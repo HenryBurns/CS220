@@ -9,17 +9,17 @@ class Player {
         int wars = 0;
         int battles_won = 0;
         int wins = 0;
+        std::string name;
         LLC<PlayingCard> cards;
-       Player(){
+        PlayingCard card;
+        Player(){
                 name = "[empty]";
         }
-       Player(std::string val){
+        Player(std::string val){
                 name = val;
         }
-        std::string name;
 	    friend std::ostream& operator<<(std::ostream &out_stream, const Player &other){
-        out_stream << other.name << ": " << other.cards << std::endl;
-        out_stream << other.hands_played << " hands played. " << other.wars << " wars. "<< other.battles_won << " battles won. " << other.wins << " won." << std::endl;
+        out_stream << other.name << " (" << other.wins << ") ";
         return out_stream;
     }
 };

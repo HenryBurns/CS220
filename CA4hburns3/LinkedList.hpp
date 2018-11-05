@@ -75,7 +75,7 @@ class LLC{
 	template <class T>
         void LLC<T>::clear(){
             NODE<T>* temp = first;
-                for(int i = 0; i < len(); i++){
+            while(temp != NULL){
                         temp = temp->next;
                         delete first;
                         first = temp;

@@ -27,6 +27,7 @@ bool PlayingCard::operator==(const PlayingCard &other){
 }
 
 std::ostream& operator<<(std::ostream &out_stream, const PlayingCard &other){
+    out_stream << "(";
     if(other.val < 10)
             out_stream << other.val;
     else{
@@ -62,6 +63,7 @@ std::ostream& operator<<(std::ostream &out_stream, const PlayingCard &other){
                     out_stream << "C";
                     break;
     }
+    out_stream << ")";
     return out_stream;
 }
 
