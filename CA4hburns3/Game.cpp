@@ -117,7 +117,7 @@ void Game::setUp(){
                                 temp = player1->cards.getElement();
                                 community.addNode(temp);
                             }
-                            if(temp != NULL)
+                            if(temp != NULL )
                                 card1 = temp->data;
                     } else {
                         more_cards++;
@@ -125,7 +125,7 @@ void Game::setUp(){
                                 temp = player1->cards.getElement();
                                 community.addNode(temp);
                             }
-                            if(temp != NULL)
+                            if(temp != NULL )
                                 card1 = temp->data;
                     }
                     if(player2->cards.len() < 4){
@@ -133,14 +133,16 @@ void Game::setUp(){
                                 temp = player2->cards.getElement();
                                 community.addNode(temp);
                             }
-                            card2 = temp->data;
+                            if(temp != NULL )
+                                card2 = temp->data;
                     } else {
                         more_cards++;
                         for(int i = 0; i < 4 ; i++){
                                 temp = player2->cards.getElement();
                                 community.addNode(temp);
                             }
-                        card2 = temp->data;
+                            if(temp != NULL )
+                                card2 = temp->data;
                     }
                     if(card1 > card2){
                         player1->battles_won++;
