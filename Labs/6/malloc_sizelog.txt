@@ -1,0 +1,6 @@
+Malloc limits ran for:
+	100000 calls on int. The heap size was 401408 according to call malloc_bytes (info proc mappings did not make the heap appear for some reason)
+	1000000 call had a heap size of 4001792 bytes	
+	10000000 call had a size of 40001536 bytes
+	100000000 call had a size of 400003072 bytes
+	1000000000 call failed. (malloc returned a void pointer)
